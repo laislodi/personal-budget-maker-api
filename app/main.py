@@ -17,7 +17,7 @@ app = FastAPI(title="Personal Budget Maker", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://laislodi.github.io/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
