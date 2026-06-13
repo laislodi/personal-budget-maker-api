@@ -3,7 +3,7 @@ from httpx import AsyncClient
 
 async def test_list_categories_requires_auth(client: AsyncClient):
     res = await client.get("/categories")
-    assert res.status_code == 403
+    assert res.status_code == 401
 
 
 async def test_list_categories_returns_defaults(client: AsyncClient, auth_headers: dict):
