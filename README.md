@@ -144,6 +144,45 @@ Full interactive documentation is available at `/docs` (Swagger UI) and `/redoc`
 
 ---
 
+## Running Tests
+
+The test suite uses [pytest](https://pytest.org) with async support via `pytest-asyncio`. Each test runs against a fresh in-memory SQLite database — no external services required.
+
+### Install test dependencies
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+### Run all tests
+
+```bash
+pytest
+```
+
+### Run with verbose output
+
+```bash
+pytest -v
+```
+
+### Test structure
+
+```
+tests/
+├── conftest.py              # shared fixtures: async client, seeded DB, auth headers
+├── unit/
+│   ├── test_income_service.py   # frequency → monthly normalization, period conversion
+│   └── test_report_service.py  # report builder: grouping, net calc, multi-source income
+└── integration/
+    ├── test_categories.py       # category/item CRUD, copy-on-write overrides, reset-defaults
+    └── test_budgets.py          # budget CRUD, income/expense entries, report calculations
+```
+
+Unit tests cover the service layer directly (no HTTP, no database). Integration tests hit the full FastAPI stack via `httpx.AsyncClient`.
+
+---
+
 ## Income Frequency Normalization
 
 When generating a report, all income sources are converted to a **monthly equivalent** regardless of pay frequency:
