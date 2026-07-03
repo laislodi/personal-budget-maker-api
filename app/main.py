@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.config import settings
 from app.database import engine, Base
 import app.models  # noqa: F401 — registers all models with SQLAlchemy metadata
 from app.routers import auth, income, categories, budgets
@@ -17,7 +18,7 @@ app = FastAPI(title="Personal Budget Maker", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://laislodi.github.io"],
+    allow_origins=settings.allowed_origins_list,
     allow_methods=["*"],
     allow_headers=["*"],
 )

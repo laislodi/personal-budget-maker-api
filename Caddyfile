@@ -1,0 +1,13 @@
+budget-maker-api.duckdns.org {
+    reverse_proxy app:8000
+}
+
+# Once you have a domain pointed at this server's static IP, replace the
+# block above with:
+#
+# api.yourdomain.com {
+#     reverse_proxy app:8000
+# }
+#
+# then run: docker compose -f docker-compose.prod.yml restart caddy
+# Caddy will automatically obtain and renew a Let's Encrypt TLS certificate.

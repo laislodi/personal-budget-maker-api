@@ -233,7 +233,21 @@ render.yaml               # Render deployment blueprint
 
 ## Deployment
 
-The repo ships with a `render.yaml` Blueprint for one-click deployment to [Render](https://render.com):
+### AWS Lightsail (recommended)
+
+The repo ships with a `Dockerfile`, `docker-compose.prod.yml`, and `Caddyfile` for running the API and PostgreSQL together on a single Lightsail instance (~$5/mo):
+
+1. Create an Ubuntu 22.04 Lightsail instance, attach a static IP, and open only ports 22/80/443 in its firewall
+2. SSH in, install Docker (`docker.io`, `docker-compose-plugin`, `git`)
+3. `git clone` this repo, `cp .env.example .env` and fill in `POSTGRES_*`, `SECRET_KEY`, and `ALLOWED_ORIGINS`
+4. `docker compose -f docker-compose.prod.yml up -d --build`
+5. Visit `http://<static-ip>/docs` — once you point a domain at the static IP, edit the `Caddyfile` to use it and restart the `caddy` service to get automatic HTTPS
+
+Postgres runs in its own container on an internal Docker network only — it's never exposed to the host or the internet.
+
+### Render (legacy)
+
+The repo also ships with a `render.yaml` Blueprint for one-click deployment to [Render](https://render.com):
 
 1. Create a free account at **render.com** (sign up with GitHub)
 2. Dashboard → **New → Blueprint** → connect `laislodi/personal-budget-maker`
